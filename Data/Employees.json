@@ -1,0 +1,39 @@
+[
+  {
+    "FirstName":"John",
+    "LastName" : "Dalecky",
+    "DateOfBirth" : "11/02/1981",
+    "StartDate" : "11/01/2005",
+    "Department" : "Product",
+    "jobTitle" : "Product Manager",
+    "Email": "jd@crudcrud.com",
+    "Mobile": "0408504789",
+    "Address": "36 Riverwood Drive. Artarmon-2066",
+    "BaseSalary": "100000"
+  },
+  {
+    "FirstName":"Matthew",
+    "LastName" : "Murdock",
+    "DateOfBirth" : "11/02/1985",
+    "StartDate" : "11/01/2010",
+    "Department" : "Legal",
+    "jobTitle" : "Senior Attorney",
+    "Email": "mm@crudcrud.com",
+    "Mobile": "0408504790",
+    "Address": "36 Charles Drive. North Sydney-2060",
+    "BaseSalary": "150000"
+  },
+  {
+    "FirstName":"Karen",
+    "LastName" : "Paige",
+    "DateOfBirth" : "11/02/1987",
+    "StartDate" : "11/01/2015",
+    "Department" : "HR",
+    "jobTitle" : "Admin Assistant",
+    "Email": "mm@crudcrud.com",
+    "Mobile": "0408504123",
+    "Address": "35 Walker Street. North Sydney-2060",
+    "BaseSalary": "70000"
+  }
+
+]
