@@ -13,5 +13,12 @@ bld/
 # NUNIT
 *.VisualState.xml
 TestResult.xml
-
+TestReport
+TestResults
+# Rider
 .idea
+#User
+Folder.DotSettings.user
+
+#api key lookup - dynamically generated
+keyLookUp.txt

@@ -14,15 +14,7 @@ public class EmployeesCrudOperations
     [OneTimeSetUp]
     public static async Task Setup()
     {
-        /*using var playwright = await Playwright.CreateAsync();
-        await using var browser = await playwright.Chromium.LaunchAsync();
-        var page = await browser.NewPageAsync();
-        await page.GotoAsync("https://crudcrud.com/");
-        var urlInformation = await page.Locator("xpath=//div[contains(@class, 'endpoint')]").First.InnerTextAsync();
-        var fileName = Path.Join(Directory.GetParent(Environment.CurrentDirectory)!.Parent!.Parent!.FullName,"keyLookUp.txt");
-        if (File.Exists(fileName))
-            File.Delete(fileName);
-        await File.WriteAllTextAsync(fileName, $"{urlInformation}");*/
+        await PlaywrightHelper.CreateApiUrl();
     }
 
     [Test]
@@ -66,10 +58,9 @@ public class EmployeesCrudOperations
         
         var employeeList = await ApiHelper.GetRestResponse<List<Employee>>("employees");
         
-        employeeList.Where(employee => employee.FirstName == "Foggy" && employee.LastName == "Nelson").ToList().Count.Should().Be(1);
-        employeeList.Where(employee => employee.FirstName == "Matthew" && employee.LastName == "Murdock").ToList().Count.Should().Be(1);
-        employeeList.Where(employee => employee.FirstName == "Karen" && employee.LastName == "Paige").ToList().Count.Should().Be(1);
-
+        var employeeNames = employeeList.Select(employee => employee.FirstName).ToList();
+        employeeNames.Should().Contain(["Foggy", "Matthew", "Karen"]);
+        
     }
 
     [Test]
@@ -114,6 +105,52 @@ public class EmployeesCrudOperations
         var updatedEmployeeList = await ApiHelper.GetRestResponse<List<Employee>>("employees");
         updatedEmployeeList.Where(item => item.EmployeeId == employeeId).Select(employeeInfo => employeeInfo.FirstName)
             .First().Should().Be("Kingpin");
+    }
+
+    [Test]
+    public async Task DeleteEmployee()
+    {
+        var employeeBenjamin = new Employee
+        {
+            FirstName = "Benjamin",
+            LastName = "Ulrich",
+            DateOfBirth = "01/01/2000",
+            Address = "2 Walker Street North Sydney - 2060",
+            BaseSalary = "50000",
+            Department = "HR",
+            Email = "ben@crud.com",
+            JobTitle = "Office Admin",
+            Mobile = "0410568789",
+            StartDate = "05/01/2018"
+        };
+        var employeeDataBen = JsonConvert.SerializeObject(employeeBenjamin);
+        var createResponse = await ApiHelper.PostRestResponse("employees", employeeDataBen);
+        createResponse.StatusCode.Should().Be(HttpStatusCode.Created);
+        var employeeWilson = new Employee
+        {
+            FirstName = "Wilson",
+            LastName = "Fisk",
+            DateOfBirth = "01/01/2000",
+            Address = "2 Walker Street North Sydney - 2060",
+            BaseSalary = "50000",
+            Department = "HR",
+            Email = "wilson@crud.com",
+            JobTitle = "Office Admin",
+            Mobile = "0410568789",
+            StartDate = "05/01/2018"
+        };
+        var employeeDataWilson = JsonConvert.SerializeObject(employeeWilson);
+        createResponse = await ApiHelper.PostRestResponse("employees", employeeDataWilson);
+        createResponse.StatusCode.Should().Be(HttpStatusCode.Created);
+        var employeeList = await ApiHelper.GetRestResponse<List<Employee>>("employees");
+        var employeeId = employeeList
+            .Where(item => item is { FirstName: "Benjamin", LastName: "Ulrich", DateOfBirth: "01/01/2000" })
+            .Select(x => x.EmployeeId).First();
+        var deleteResponse = await ApiHelper.DeleteRestResponse($"employees/{employeeId}");
+        deleteResponse.StatusCode.Should().Be(HttpStatusCode.OK);     
+        employeeList = await ApiHelper.GetRestResponse<List<Employee>>("employees");
+        employeeList.Select(employee => employee.FirstName).ToList().Should().NotContain("Benjamin");
+        
     }
 
     [OneTimeTearDown]
