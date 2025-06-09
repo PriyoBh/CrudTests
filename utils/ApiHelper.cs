@@ -42,6 +42,18 @@ public static class ApiHelper
         var response = await client.ExecutePostAsync(request);
         return response;
     }
+    
+    public static async Task<RestResponse> PutRestResponse(string url, string body)
+    {
+        SetupBaseUrl();
+        var options = new RestClientOptions(_baseUrl) {
+        };
+        var client = new RestClient(options);
+        var request = new RestRequest(url, Method.Put);
+        request.AddBody(body);
+        var response = await client.ExecutePutAsync(request);
+        return response;
+    }
 
     public static async Task<RestResponse> DeleteRestResponse(string url)
     {
