@@ -1,3 +1,5 @@
+# Pre-requisites
+dotnet core 8 sdk needs to be installed. Please visit Microsoft website for installation files and instructions.
 # Installation 
 
 1. Clone the repository
