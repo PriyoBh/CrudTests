@@ -28,4 +28,26 @@ public static class ApiHelper
         return JsonConvert.DeserializeObject<T>(response.Content);
     }
 
+    public static async Task<RestResponse> PostRestResponse(string url, string body)
+    {
+        SetupBaseUrl();
+        var options = new RestClientOptions(baseUrl) {
+        };
+        var client = new RestClient(options);
+        var request = new RestRequest(url, Method.Post);
+        request.AddBody(body);
+        var response = await client.ExecutePostAsync(request);
+        return response;
+    }
+
+    public static async Task<RestResponse> DeleteRestResponse(string url)
+    {
+        SetupBaseUrl();
+        var options = new RestClientOptions(baseUrl) {
+        };
+        var client = new RestClient(options);
+        var request = new RestRequest(url);
+        var response = await client.ExecuteDeleteAsync(request);
+        return response;
+    }
 }

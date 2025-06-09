@@ -11,9 +11,11 @@ namespace CrudAPITests;
 [TestFixture]
 public class GetEmployees
 {
+
     [Test]
     public async Task GetEmployeeDetails()
     {
+        
         var employeeList = await ApiHelper.GetRestResponse<List<Employee>>("employees");
         employeeList.Count.Should().BeGreaterThan(0);
     }
