@@ -15,3 +15,5 @@ The test suite has been built using Restsharp and Playwright.NET
 The fetching of the API could be explored to be retrieved by making an API call itself instead of going via UI. The api endpoint itself could be checked to see if it is still active or not and no of calls made so far. Then a fresh url can be retrieved.
 
 Once an API project grows up it might make more sense to create client-services for specific micro-services. IHttpClientFactory can be used to build more scalable services.
+
+A command-line tool should be integrated to convert the *.trx report generated to a more user friendly html report. A CI file (like Jenkinsfile or Github actions yml) need to be added.
